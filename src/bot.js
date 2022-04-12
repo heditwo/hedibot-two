@@ -7,9 +7,11 @@ const {
 } = require('discord.js');
 const StarboardsManager = require('discord-starboards')
 const WorkerWatcher = require('./Structs/WorkerWatcher')
+const logger = require('./util/logger')
+const myIntents = new Intents(65535)
 
 const client = new Client({
-    intents: [Intents.FLAGS.GUILDS]
+    intents: [myIntents]
 });
 
 client.commands = new Collection()
@@ -37,8 +39,10 @@ for (const file of commandFiles) {
 for (const file of eventFiles) {
     const event = require(`./events/${file}`);
     if (event.once) {
+        logger.info(`${event.name} event created`)
         eval(event.emitter).once(event.name, (...args) => event.execute(...args, client));
     } else {
+        logger.info(`${event.name} event created`)
         eval(event.emitter).on(event.name, (...args) => event.execute(...args, client));
     }
 }
