@@ -13,7 +13,9 @@ class WorkerWatcher extends EventEmitter {
     }
 
     async getWorkers() {
-        let workerNames = await axios.get(`${this.api}/miner/${this.wallet}/identifiers`)
+        let workerNames = await axios.get(`${this.api}/miner/${this.wallet}/identifiers`).catch(e => {
+            logger.fail(`getWorkers failed with code ${e.response}`)
+        })
         return workerNames.data.sort()
     }
 
@@ -30,7 +32,7 @@ class WorkerWatcher extends EventEmitter {
     async initMonitor() {
         this.workers = await this.getWorkers()
 
-        logger.info('miner monitor initialized')
+        logger.success('miner monitor initialized')
         setTimeout(this.monitor.bind(this), 10 * 1000, this.workers)
     }
 
