@@ -15,10 +15,9 @@ module.exports = {
         let workers = await client.miner.getWorkers()
         let embed = new MessageEmbed()
             .setTitle(`${workers.length} workers online.`)
-            .setDescription(workers)
+            .setDescription(workers.join("\n"))
             .setColor('#0fa316')
-        console.log('test')
-        await interaction.editReply({
+        return await interaction.editReply({
             embeds: [embed]
         })
     }

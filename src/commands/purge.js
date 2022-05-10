@@ -13,15 +13,15 @@ module.exports = {
         await interaction.deferReply({
             ephemeral: true
         })
-        if (num1 <= 1 || num1 > 100) {
+        if (num1 < 1 || num1 > 100) {
             return await interaction.editReply('You need to input a number between 1 and 100.')
         }
         await interaction.channel.bulkDelete(num1, true).catch(async err => {
             logger.warn(err)
-            await interaction.editReply('There was an error trying to prune messages.')
+            return await interaction.editReply('There was an error trying to prune messages.')
         })
 
-        interaction.editReply(`Pruned ${num1} messages.`)
+        return interaction.editReply(`Pruned ${num1} messages.`)
     }
 
 }
