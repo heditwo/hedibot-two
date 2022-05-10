@@ -11,15 +11,14 @@ module.exports = {
         .setName('getworkers')
         .setDescription('get list of all workers from the process wallet and send it in the designated worker channel'),
     async execute(interaction, client) {
-        await interaction.deferReply({
-            ephemeral: true
-        })
+        await interaction.deferReply()
         let workers = await client.miner.getWorkers()
         let embed = new MessageEmbed()
             .setTitle(`${workers.length} workers online.`)
             .setDescription(workers)
             .setColor('#0fa316')
-        await interaction.followup.send({
+        console.log('test')
+        await interaction.editReply({
             embeds: [embed]
         })
     }
