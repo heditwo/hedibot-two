@@ -19,7 +19,7 @@ module.exports = {
             .setTitle(`${workers.length} workers online.`)
             .setDescription(workers)
             .setColor('#0fa316')
-        interaction.followup.send({
+        await interaction.followup.send({
             embeds: [embed]
         })
     }
