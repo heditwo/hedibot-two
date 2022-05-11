@@ -19,11 +19,11 @@ module.exports = {
             return await interaction.reply('There is already a starboard on this server!')
         }
         await interaction.deferReply()
-        await client.starboardsManager.create(cID.id, {
+        await client.starboardsManager.create(cID, {
             emoji: emoji,
             threshold: threshold,
             color: '3236a8'
         })
-        await interaction.editReply(`Starboard created in ${cID} using ${emoji}`)
+        return await interaction.editReply(`Starboard created in ${cID} using ${emoji}`)
     }
 }

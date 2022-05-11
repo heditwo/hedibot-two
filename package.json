@@ -12,7 +12,8 @@
     "discord-api-types": "^0.30.0",
     "discord-starboards": "^2.3.2",
     "discord.js": "^13.6.0",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "mongoose": "^6.3.3"
   },
   "devDependencies": {
     "eslint": "^8.12.0"
