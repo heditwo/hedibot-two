@@ -5,19 +5,23 @@ const {
     Collection,
     Intents
 } = require('discord.js');
-const StarboardsManager = require('discord-starboards')
+const StarboardsManagerCustomDb = require('./Database/StarboardsManagerCustomDB')
 const WorkerWatcher = require('./Structs/WorkerWatcher')
 const logger = require('./util/logger')
 const myIntents = new Intents(65535)
+const mongoose = require('mongoose')
 
 const client = new Client({
     intents: [myIntents]
 });
 
 client.commands = new Collection()
+client.mongoose = mongoose
 
 //initialize the starboards
-const manager = new StarboardsManager(client)
+const manager = new StarboardsManagerCustomDb(client, {
+    storage: false
+})
 client.starboardsManager = manager
 
 //initialize miner monitor
@@ -49,7 +53,15 @@ for (const file of eventFiles) {
 
 
 
-
+//init db
+client.mongoose.connect(process.env.MONGOURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    logger.success('Connection to DB successful')
+}).catch(err => {
+    logger.error(err.message)
+})
 
 
 client.login(process.env.TOKEN);

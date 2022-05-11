@@ -3,26 +3,29 @@
 const StarboardsManager = require('discord-starboards')
 const StarboardSchema = require('./Schema/Starboard')
 
-//TODO: create these functions
+class StarboardsManagerCustomDb extends StarboardsManager {
 
-const StarboardsManagerCustomDb = class extends StarboardsManager {
     async getAllStarboards() {
-        return StarboardSchema.find() //empty filter means find all 
+        let allStarboards = []
+        let starboards = await StarboardSchema.find() //empty filter means find all 
+        for (const starboard of starboards) {
+            allStarboards.push(starboard.starboard)
+        }
+        return allStarboards
     }
 
     async saveStarboard(data) {
-        console.log(data)
+        await StarboardSchema.create({
+            starboard: data
+        })
     }
 
-    async deleteStarboard(data) {
-        console.log(data)
-    }
-
-    async editStarboard(channelId, emoji, data) {
-        console.log(channelId, emoji, data)
+    async deleteStarboard(channelId, emoji) {
+        await StarboardSchema.deleteOne({
+            channelId: channelId,
+            emoji: emoji
+        })
     }
 }
 
-module.exports = {
-    StarboardsManagerCustomDb
-}
+module.exports = StarboardsManagerCustomDb
